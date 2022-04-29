@@ -38,8 +38,9 @@ where product_id = :id');
     private function createProductFromData($ProductArray): Product
     {
 
-        return new Product($ProductArray['product_id'] , $ProductArray['product_name'] , $ProductArray['department_id'] ,  $ProductArray['department_name']  );
+        $product =  new Product($ProductArray['product_id'] , $ProductArray['product_name']  );
+        $product->setDepartment(new Department($ProductArray['department_id'] , $ProductArray['department_name']));
 
-
+        return $product;
     }
 }

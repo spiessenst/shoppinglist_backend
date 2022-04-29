@@ -7,9 +7,13 @@ require_once('lib/autoload.php');
 
 
 
-$product =  $container->ProductLoader()->getProductByID(1);
+//$product =  $container->ProductLoader()->getProductByID(5)->getDepartment()->getDepartmentName();
 
-$stores = $container->StoreLoader()->getStores();
+$productlist = $container->ShoppingListLoader()->getShoppingListForStore( 1 , 1 );
 
-var_dump($stores[1]->getStoreName());
+print("<pre>".print_r($productlist,true)."</pre>");
+
+
+
+//$container->ShoppingListLoader()->getShoppinglistForStore( 1 , 1);
 

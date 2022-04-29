@@ -7,6 +7,7 @@ class Container
     private  $pdo;
     private  $ProductLoader;
     private $StoreLoader;
+    private $ShoppingListLoader;
 
 
     /**
@@ -60,5 +61,20 @@ class Container
 
     }
 
+    /**
+     * @return ShoppingListLoader
+     */
+
+    public function ShoppingListLoader() : ShoppingListLoader
+    {
+        if($this->ShoppingListLoader === null) {
+
+            $this->ShoppingListLoader = new ShoppingListLoader($this->getPdo());
+        }
+        return $this->ShoppingListLoader;
+
+    }
+
 
 }
+
