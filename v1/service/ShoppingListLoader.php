@@ -50,7 +50,7 @@ order by r.sort_order;');
 
     public function getAllLists(){
         $statement = $this->pdo->prepare('SELECT * from shoppinglist
-order by shoppinglist_create_date asc');
+        order by shoppinglist_create_date DESC ');
         $statement->execute();
         $listsArray = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -65,6 +65,25 @@ order by shoppinglist_create_date asc');
 
         return $lists;
     }
+
+    public function setList($shoppinglist_name){
+
+
+        $statement = $this->pdo->prepare('INSERT INTO shoppinglist SET shoppinglist_name= :shoppinglist_name');
+        $statement->execute(array('shoppinglist_name' => $shoppinglist_name));
+
+    }
+
+
+    public function setListProduct($shoppinglist_id , $product_id , $qty = 1 ){
+
+
+        $statement = $this->pdo->prepare('INSERT INTO shoppinglist_product (shoppinglist_id , product_id , qty) VALUES
+ (:shoppinglist_id , :product_id , :qty )');
+        $statement->execute(array('shoppinglist_id' => $shoppinglist_id, 'product_id' => $product_id , 'qty' => $qty));
+
+    }
+
 
 
 }

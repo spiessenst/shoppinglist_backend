@@ -34,6 +34,8 @@ class Container
         return $this->pdo;
     }
 
+
+
     /**
      * @return ProductLoader
      */

@@ -17,7 +17,6 @@ $method = $_SERVER["REQUEST_METHOD"];
 $parts = explode("/", $request);
 $parts_count = count($parts);
 
-
 $mainpart = "";
 
 
@@ -38,6 +37,12 @@ if ( $parts[$parts_count-1]  == "products" )
     $mainpart = "products";
 }
 
+
+if ( $parts[$parts_count-1]  == "product" )
+{
+    $mainpart = "product";
+}
+
 if ( $parts[$parts_count-2]  == "product" )
 {
     $mainpart = "product";
@@ -47,6 +52,11 @@ if ( $parts[$parts_count-2]  == "product" )
 if ( $parts[$parts_count-1]  == "lists" )
 {
     $mainpart = "lists";
+}
+
+if ( $parts[$parts_count-1]  == "list" )
+{
+    $mainpart = "list";
 }
 
 if ( $parts[$parts_count-3] == "list" )
@@ -98,5 +108,38 @@ if ( $method == "GET" AND $mainpart == "list" )
 {
     $list = $container->ShoppingListLoader()->getShoppingListForStore($store_id , $shop_id);
     print json_encode($list);
+}
+
+
+if ( $method == "POST" AND $mainpart == "list"  )
+{
+
+    $contents = json_decode( file_get_contents("php://input") );
+    $newdata = $contents->shoppinglist_name;
+
+    $container->ShoppingListLoader()->setList($newdata);
+
+
+    $lists = $container->ShoppingListLoader()->getAllLists();
+    print json_encode($lists);
+}
+
+
+
+if ( $method == "POST" AND $mainpart == "product"  )
+{
+
+    $contents = json_decode( file_get_contents("php://input") );
+
+
+    $newdata = $contents->product_name;
+    $newdata1 = $contents->department_id;
+
+
+    $container->ProductLoader()->setProduct($newdata , $newdata1);
+
+
+    $products = $container->ProductLoader()->getAllProducts();
+    print json_encode($products);
 }
 
