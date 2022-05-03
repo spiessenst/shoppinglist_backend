@@ -85,5 +85,21 @@ order by r.sort_order;');
     }
 
 
+    public function deleteListProduct($product_id , $shoppinglist_id){
+        $statement = $this->pdo->prepare('DELETE FROM shoppinglist_product WHERE product_id= :product_id AND shoppinglist_id= :shoppinglist_id');
+        $statement->execute(array('product_id' => $product_id, "shoppinglist_id" => $shoppinglist_id));
+
+    }
+
+
+    public function deleteList($shoppinglist_id){
+
+
+        $statement = $this->pdo->prepare('DELETE FROM shoppinglist_product WHERE shoppinglist_id= :shoppinglist_id');
+        $statement->execute(array( "shoppinglist_id" => $shoppinglist_id));
+
+        $statement = $this->pdo->prepare('DELETE FROM shoppinglist WHERE shoppinglist_id= :shoppinglist_id');
+        $statement->execute(array("shoppinglist_id" => $shoppinglist_id));
+    }
 
 }

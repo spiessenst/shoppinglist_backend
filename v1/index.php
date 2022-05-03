@@ -59,12 +59,35 @@ if ( $parts[$parts_count-1]  == "list" )
     $mainpart = "list";
 }
 
+if ( $parts[$parts_count-2]  == "list" )
+{
+    $mainpart = "list";
+    $shoppinglist_id = $parts[$parts_count-1];
+}
+
+
 if ( $parts[$parts_count-3] == "list" )
 {
     $mainpart = "list";
-    $store_id = $parts[$parts_count-2];
-    $shop_id = $parts[$parts_count-1];
+    $shoppinglist_id = $parts[$parts_count-2];
+    $store_id = $parts[$parts_count-1];
 }
+
+if ( $parts[$parts_count-1] == "listproduct" )
+{
+    $mainpart = "listproduct";
+
+}
+
+if ( $parts[$parts_count-3] == "listproduct" )
+{
+    $mainpart = "listproduct";
+    $shoppinglist_id = $parts[$parts_count-2];
+    $product_id = $parts[$parts_count-1];
+}
+
+
+
 
 
 if ( $mainpart == "" )
@@ -105,8 +128,9 @@ if ( $method == "GET" AND $mainpart == "lists" )
 }
 
 if ( $method == "GET" AND $mainpart == "list" )
+
 {
-    $list = $container->ShoppingListLoader()->getShoppingListForStore($store_id , $shop_id);
+    $list = $container->ShoppingListLoader()->getShoppingListForStore($store_id , $shoppinglist_id);
     print json_encode($list);
 }
 
@@ -124,6 +148,21 @@ if ( $method == "POST" AND $mainpart == "list"  )
     print json_encode($lists);
 }
 
+
+if ( $method == "POST" AND $mainpart == "listproduct"  )
+{
+
+    $contents = json_decode( file_get_contents("php://input") );
+
+    $newdata = $contents->shoppinglist_id;
+    $newdata1 = $contents->product_id;
+
+    $container->ShoppingListLoader()->setListProduct($newdata, $newdata1);
+
+    $list = $container->ShoppingListLoader()->getShoppingListForStore( 1 ,  $newdata);
+    print json_encode($list);
+
+}
 
 
 if ( $method == "POST" AND $mainpart == "product"  )
@@ -143,3 +182,34 @@ if ( $method == "POST" AND $mainpart == "product"  )
     print json_encode($products);
 }
 
+
+if ( $method == "DELETE" AND $mainpart == "listproduct"  )
+{
+
+    $contents = json_decode( file_get_contents("php://input") );
+
+
+    $deletedata = $contents->shoppinglist_id;
+    $deletedata1 = $contents->product_id;
+
+
+    $container->ShoppingListLoader()->deleteListProduct($deletedata1 , $deletedata);
+
+    $list = $container->ShoppingListLoader()->getShoppingListForStore(1 , $deletedata);
+    print json_encode($list);
+
+}
+
+if ( $method == "DELETE" AND $mainpart == "list")
+{
+
+    $contents = json_decode( file_get_contents("php://input") );
+
+    $deletedata = $contents->shoppinglist_id;
+
+    $container->ShoppingListLoader()->deleteList($deletedata);
+
+    $list = $container->ShoppingListLoader()->getAllLists();
+    print json_encode($list);
+
+}

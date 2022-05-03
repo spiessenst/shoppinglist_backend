@@ -1,0 +1,36 @@
+Endpoint docs
+
+GET
+
+/stores
+
+/departments
+
+/products
+
+/product/{id}
+
+/lists
+
+/list/{listid}/{store_id}
+
+
+POST
+
+/list
+
+body: shoppinglist_name
+
+/listproduct
+
+body: shoppinglist_id , product_id
+
+/product
+
+body: product_name , department_id
+
+DELETE
+
+/listproduct/{shoppinglist_id}/{product_id}
+
+/list/{id}
