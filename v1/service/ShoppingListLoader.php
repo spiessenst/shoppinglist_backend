@@ -2,7 +2,7 @@
 
 class ShoppingListLoader
 {
-    private PDO $pdo;
+    private  $pdo;
 
 
     /**
@@ -22,16 +22,16 @@ class ShoppingListLoader
     public function getShoppingListForStore($store_id, $shoppinglist_id)
     {
 
-        $statement = $this->pdo->prepare('SELECT * from shoppinglist where shoppinglist_id = :shoppingid');
-        $statement->execute(array('shoppingid' => $shoppinglist_id));
-        $shoppinglist = $statement->fetch(PDO::FETCH_ASSOC);
+       // $statement = $this->pdo->prepare('SELECT * from shoppinglist where shoppinglist_id = :shoppingid');
+      //  $statement->execute(array('shoppingid' => $shoppinglist_id));
+        $shoppinglist = $this->getListByID($shoppinglist_id);
 
         $statement = $this->pdo->prepare('SELECT * from store where store_id = :storeid');
         $statement->execute(array('storeid' => $store_id));
         $store = $statement->fetch(PDO::FETCH_ASSOC);
 
 
-        $statement = $this->pdo->prepare('SELECT  d.department_id , d.department_name , product.product_id , product_name , qty from product
+        $statement = $this->pdo->prepare('SELECT  d.department_id , d.department_name , product.product_id , product_name , qty , checked from product
 INNER JOIN shoppinglist_product sp on product.product_id = sp.product_id
 INNER JOIN department d on product.department_id = d.department_id
 INNER JOIN route r on d.department_id = r.department_id
@@ -66,6 +66,31 @@ order by r.sort_order;');
         return $lists;
     }
 
+
+
+    /**
+     * @param $id
+     * @return array|null
+     */
+    public function getListByID($id)
+    {
+
+        $statement = $this->pdo->prepare('SELECT * from shoppinglist where shoppinglist_id = :shoppingid');
+        $statement->execute(array('shoppingid' => $id));
+        $ListArray = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        if(!$ListArray){
+            return null;
+        }
+
+        foreach ($ListArray as $list){
+
+            $lists[] = $list;
+        }
+
+        return $lists;
+    }
+
     public function setList($shoppinglist_name){
 
 
@@ -75,12 +100,12 @@ order by r.sort_order;');
     }
 
 
-    public function setListProduct($shoppinglist_id , $product_id , $qty = 1 ){
+    public function setListProduct($shoppinglist_id , $product_id , $qty = 1 , $checked = 0){
 
 
-        $statement = $this->pdo->prepare('INSERT INTO shoppinglist_product (shoppinglist_id , product_id , qty) VALUES
- (:shoppinglist_id , :product_id , :qty )');
-        $statement->execute(array('shoppinglist_id' => $shoppinglist_id, 'product_id' => $product_id , 'qty' => $qty));
+        $statement = $this->pdo->prepare('INSERT INTO shoppinglist_product (shoppinglist_id , product_id , qty , checked) VALUES
+ (:shoppinglist_id , :product_id , :qty , :checked )');
+        $statement->execute(array('shoppinglist_id' => $shoppinglist_id, 'product_id' => $product_id , 'qty' => $qty , 'checked' => $checked));
 
     }
 
@@ -94,12 +119,37 @@ order by r.sort_order;');
 
     public function deleteList($shoppinglist_id){
 
-
-        $statement = $this->pdo->prepare('DELETE FROM shoppinglist_product WHERE shoppinglist_id= :shoppinglist_id');
+          $statement = $this->pdo->prepare('DELETE FROM shoppinglist_product WHERE shoppinglist_id= :shoppinglist_id');
+          $statement->execute(array("shoppinglist_id" => $shoppinglist_id));
+        $statement = $this->pdo->prepare('DELETE FROM shoppinglist WHERE shoppinglist_id= :shoppinglist_id');
         $statement->execute(array( "shoppinglist_id" => $shoppinglist_id));
 
-        $statement = $this->pdo->prepare('DELETE FROM shoppinglist WHERE shoppinglist_id= :shoppinglist_id');
-        $statement->execute(array("shoppinglist_id" => $shoppinglist_id));
+
     }
+
+
+    public function updateListProductQty($shoppinglist_id , $product_id , $qty ){
+
+
+        $statement = $this->pdo->prepare('UPDATE shoppinglist_product SET qty= :qty WHERE shoppinglist_id = :shoppinglist_id  AND product_id = :product_id');
+        $statement->execute(array('shoppinglist_id' => $shoppinglist_id, 'product_id' => $product_id , 'qty' => $qty));
+
+    }
+
+    public function updateListProductChecked($shoppinglist_id , $product_id , $checked ){
+
+
+        $statement = $this->pdo->prepare('UPDATE shoppinglist_product SET checked= :checked WHERE shoppinglist_id = :shoppinglist_id  AND product_id = :product_id');
+        $statement->execute(array('shoppinglist_id' => $shoppinglist_id, 'product_id' => $product_id , 'checked' => $checked));
+
+    }
+    public function giveLatestListId(){
+
+        $last_ID = $this->pdo->lastInsertId();
+
+        return $this->getListByID($last_ID);
+    }
+
+
 
 }

@@ -3,7 +3,7 @@
 class ProductLoader
 {
 
-    private PDO $pdo;
+    private  $pdo;
 
 
     /**
@@ -65,5 +65,12 @@ INNER JOIN department d on product.department_id = d.department_id');
         $statement = $this->pdo->prepare('INSERT INTO product (product_name , department_id) VALUES (:product_name , :department_id )');
         $statement->execute(array('product_name' => $product_name , 'department_id'=> $department_id ));
 
+    }
+
+    public function giveLatestProductId(){
+
+        $last_ID = $this->pdo->lastInsertId();
+
+        return $this->getProductByID($last_ID);
     }
 }

@@ -1,5 +1,6 @@
 Endpoint docs
 
+
 GET
 
 /stores
@@ -12,7 +13,8 @@ GET
 
 /lists
 
-/list/{listid}/{store_id}
+/list/{shoppinglist_id}/{store_id}
+
 
 
 POST
@@ -23,14 +25,32 @@ body: shoppinglist_name
 
 /listproduct
 
-body: shoppinglist_id , product_id
+body: shoppinglist_id , product_id , store_id
 
 /product
 
 body: product_name , department_id
 
+
 DELETE
 
-/listproduct/{shoppinglist_id}/{product_id}
+/listproduct
 
-/list/{id}
+body: shoppinglist_id , product_id , store_id
+
+/list
+
+body: shoppinglist_id
+
+
+PUT
+
+/listproduct
+
+body: shoppinglist_id , product_id , qty , store_id
+
+PATCH
+
+/listproduct
+
+body: shoppinglist_id , product_id , checked , store_id

@@ -2,8 +2,8 @@
 
 class Department
 {
-        private int $department_id;
-        private string $department_name;
+        private  $department_id;
+        private  $department_name;
 
     /**
      * @param int $department_id

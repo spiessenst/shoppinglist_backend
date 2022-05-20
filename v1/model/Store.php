@@ -3,8 +3,8 @@
 class Store
 {
 
-    private int $store_id;
-    private string $store_name;
+    private  $store_id;
+    private  $store_name;
 
     /**
      * @param int $store_id

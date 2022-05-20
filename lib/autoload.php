@@ -22,7 +22,13 @@ require_once "$path/service/ShoppingListLoader.php";
 require_once "$path/service/DepartmentLoader.php";
 
 
+$configuration_server = array(
 
+    'db_dsn' => 'mysql:host=185.115.218.166;dbname=fs_thomass',
+    'db_user' => 'fs_thomass',
+    'db_pass' => 'ut1Cl8opXYuF'
+
+);
 
 $configuration = array(
 

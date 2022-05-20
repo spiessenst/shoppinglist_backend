@@ -1,14 +1,14 @@
 <?php
 
-class Shoppinglist
+class ShoppingList
 
 
 {
-    private Store $Store;
-    private int $shoppinglist_id;
-    private DateTime $shoppinglist_create_date;
-    private string $shoppinglist_name;
-    private array $Product_list_items;
+    private  $Store;
+    private  $shoppinglist_id;
+    private  $shoppinglist_create_date;
+    private  $shoppinglist_name;
+    private  $Product_list_items;
 
     /**
      * @return array

@@ -3,7 +3,7 @@
 class DepartmentLoader
 {
 
-    private PDO $pdo;
+    private  $pdo;
 
     /**
      * @param $pdo

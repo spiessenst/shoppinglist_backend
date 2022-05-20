@@ -3,7 +3,7 @@
 class StoreLoader
 {
 
-    private PDO $pdo;
+    private  $pdo;
     /**
      * @param $pdo
      */

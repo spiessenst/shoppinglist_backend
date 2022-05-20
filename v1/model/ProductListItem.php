@@ -2,8 +2,11 @@
 
 class ProductListItem
 {
-        private Product $product;
-        private int $qty;
+        private  $product;
+        private  $qty;
+        private $checked;
+
+
 
     /**
      * @param Product $product
@@ -46,6 +49,23 @@ class ProductListItem
     public function setQty(int $qty): void
     {
         $this->qty = $qty;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getChecked()
+    {
+        return $this->checked;
+    }
+
+    /**
+     * @param mixed $checked
+     */
+    public function setChecked($checked): void
+    {
+        $this->checked = $checked;
     }
 
 

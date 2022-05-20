@@ -3,9 +3,9 @@
 class Product
 {
 
-    private int $product_id;
-    private string $product_name;
-    private Department $department;
+    private  $product_id;
+    private  $product_name;
+    private  $department;
 
     /**
      * @param int $product_id

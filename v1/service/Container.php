@@ -3,7 +3,7 @@
 class Container
 {
 
-    private array $configuration;
+    private  $configuration;
     private  $pdo;
     private  $ProductLoader;
     private $StoreLoader;
