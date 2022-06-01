@@ -54,3 +54,7 @@ PATCH
 /listproduct
 
 body: shoppinglist_id , product_id , checked , store_id
+
+/list
+
+body: shoppinglist_id ,shoppinglist_name

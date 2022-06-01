@@ -22,8 +22,6 @@ class ShoppingListLoader
     public function getShoppingListForStore($store_id, $shoppinglist_id)
     {
 
-       // $statement = $this->pdo->prepare('SELECT * from shoppinglist where shoppinglist_id = :shoppingid');
-      //  $statement->execute(array('shoppingid' => $shoppinglist_id));
         $shoppinglist = $this->getListByID($shoppinglist_id);
 
         $statement = $this->pdo->prepare('SELECT * from store where store_id = :storeid');
@@ -133,6 +131,12 @@ order by r.sort_order;');
 
         $statement = $this->pdo->prepare('UPDATE shoppinglist_product SET qty= :qty WHERE shoppinglist_id = :shoppinglist_id  AND product_id = :product_id');
         $statement->execute(array('shoppinglist_id' => $shoppinglist_id, 'product_id' => $product_id , 'qty' => $qty));
+
+    }
+
+    public function updateListName($shoppinglist_id , $shoppinglist_name){
+        $statement = $this->pdo->prepare('UPDATE shoppinglist SET shoppinglist_name= :shoppinglist_name WHERE shoppinglist_id = :shoppinglist_id');
+        $statement->execute(array('shoppinglist_id' => $shoppinglist_id, 'shoppinglist_name' =>  $shoppinglist_name ));
 
     }
 

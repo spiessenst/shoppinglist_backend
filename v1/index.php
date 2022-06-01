@@ -225,3 +225,17 @@ if ( $method == "PATCH" AND $mainpart == "listproduct" )
 
 }
 
+if ( $method == "PATCH" AND $mainpart == "list" )
+{
+    $contents = json_decode( file_get_contents("php://input") );
+
+    $updatedata = $contents->shoppinglist_id;
+    $updatedata1 = $contents->shoppinglist_name;
+
+
+    $container->ShoppingListLoader()->updateListName($updatedata , $updatedata1 );
+
+  //  $list = $container->ShoppingListLoader()->getShoppingListForStore(  $store_id , $updatedata);
+  //  print json_encode($list);
+
+}
